@@ -103,7 +103,7 @@ class MetaEntity extends Entity
                             $type = new Types\Enum(array_reduce($class::cases(), function (array $values, \BackedEnum $type) {
                                 $values[$type->value] = method_exists($type, 'getCaption')
                                     ? $type->getCaption()
-                                    : $type->key;
+                                    : $type->name;
 
                                 return $values;
                             }, []));

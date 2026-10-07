@@ -97,6 +97,16 @@ class MetaEntity extends Entity
                                 }, $result, array_keys($result));
                             });
                             break;
+                        } elseif (is_subclass_of($data['enum'], \BackedEnum::class, true)) {
+                            /** @var \BackedEnum $class */
+                            $class = $data['enum'];
+                            $type = new Types\Enum(array_reduce($class::cases(), function (array $values, \BackedEnum $type) {
+                                $values[$type->value] = method_exists($type, 'getCaption')
+                                    ? $type->getCaption()
+                                    : $type->key;
+
+                                return $values;
+                            }, []));
                         } elseif (is_subclass_of($data['enum'], Enum::class, true)) {
                             /** @var Enum $class */
                             $class = $data['enum'];
